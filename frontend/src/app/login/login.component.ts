@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
 import { User } from '../user';
 
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   inputPassword: string = '';
   
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService,
+              private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +26,14 @@ export class LoginComponent implements OnInit {
     this.loginService.logIn(this.inputUsername, this.inputPassword).subscribe(
       (response: User) => {
         console.log(response);
+
+        if(response != null) {
+          this.loginService.setLoggedUser(response);
+          if(response.userRole === "USER")
+              this.router.navigateByUrl("/user");
+          else if(response.userRole === "ADMIN")
+              this.router.navigateByUrl("/admin");
+        }
       }
     )
   }

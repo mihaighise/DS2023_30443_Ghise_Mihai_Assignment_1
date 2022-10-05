@@ -10,10 +10,20 @@ import { Observable } from 'rxjs';
 export class LoginService {
 
   private apiServerUrl = environment.apiBaseUrl;
+  
+  private loggedUser!: User;
 
   constructor(private http: HttpClient) { }
 
   logIn(username: string, password: string): Observable<User> {
     return this.http.get<User>(`${this.apiServerUrl}/users/login` + '/' + username + '/' + password);
+  }
+
+  setLoggedUser(user: User) {
+    this.loggedUser = user;
+  }
+
+  getLoggedUser(user: User): User {
+    return this.loggedUser;
   }
 }
