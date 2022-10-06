@@ -31,7 +31,7 @@ public class UserController {
         return ResponseEntity.created(uri).body(userService.addUser(user));
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/delete/{username}")
     public void deleteCinema(@PathVariable String username) {
         userService.deleteUser(username);
     }

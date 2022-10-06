@@ -1,6 +1,8 @@
 package com.utcn.assignment1.service;
 
+import com.utcn.assignment1.model.Device;
 import com.utcn.assignment1.model.User;
+import com.utcn.assignment1.repository.DeviceRepository;
 import com.utcn.assignment1.repository.UserRepository;
 import com.utcn.assignment1.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,9 @@ public class UserService implements IUserService {
     @Autowired
     private final UserRepository userRepository;
 
+    @Autowired
+    private final DeviceRepository deviceRepository;
+
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -31,6 +36,8 @@ public class UserService implements IUserService {
     @Override
     public void deleteUser(String username) {
         User user = userRepository.findByUsername(username);
+        for(Device device: user.getDevices())
+            device.setUser(null);
         userRepository.delete(user);
     }
 

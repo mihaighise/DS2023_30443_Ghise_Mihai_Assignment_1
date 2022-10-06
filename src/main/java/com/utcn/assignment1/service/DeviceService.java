@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +39,22 @@ public class DeviceService implements IDeviceService {
     public User assignDeviceToUser(User user, Device device) {
         user.addDevice(device);
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<Device> getFreeDevices() {
+        List<Device> freeDevices = new ArrayList<>();
+        deviceRepository.findAll().forEach(device -> {
+            if(device.getUser() == null) {
+                freeDevices.add(device);
+            }
+        });
+        return freeDevices;
+    }
+
+    @Override
+    public void deleteDevice(Long id) {
+        Optional<Device> device = deviceRepository.findById(id);
+        device.ifPresent(deviceRepository::delete);
     }
 }

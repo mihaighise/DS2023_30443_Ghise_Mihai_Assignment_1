@@ -9,4 +9,6 @@ public interface IDeviceService {
     List<Device> getDevices();
     Device addDevice(Device device);
     User assignDeviceToUser(User user, Device device);
+    List<Device> getFreeDevices();
+    void deleteDevice(Long id);
 }
