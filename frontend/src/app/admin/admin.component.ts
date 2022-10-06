@@ -14,7 +14,7 @@ export class AdminComponent implements OnInit {
   users!: User[];
   devices!: Device[];
   freeDevices!: Device[];
-  selectedFreeDevices: number[] = [];
+  selectedFreeDevices: Device[] = [];
 
   constructor(private userSerivce: UserService,
     private deviceService: DeviceService) { }
@@ -54,21 +54,21 @@ export class AdminComponent implements OnInit {
     window.location.reload();
   }
 
-  toogleClick(id: number) {
-    if (this.checkSelectedDevice(id)) {
-      const index = this.selectedFreeDevices.indexOf(id, 0);
+  toogleClick(device: Device) {
+    if (this.checkSelectedDevice(device)) {
+      const index = this.selectedFreeDevices.indexOf(device, 0);
       if (index > -1) {
         this.selectedFreeDevices.splice(index, 1);
       }
       console.log(this.selectedFreeDevices);
     } else {
-      this.selectedFreeDevices.push(id);
+      this.selectedFreeDevices.push(device);
       console.log(this.selectedFreeDevices);
     }
   }
 
-  checkSelectedDevice(id: number) {
-    if (this.selectedFreeDevices.find(x => x === id))
+  checkSelectedDevice(device: Device) {
+    if (this.selectedFreeDevices.find(x => x === device))
       return true;
     return false;
   }
@@ -76,6 +76,9 @@ export class AdminComponent implements OnInit {
   assignDevicesToUser(id: number) {
     if(this.selectedFreeDevices.length > 0) {
       //call service to assign device to user
+      console.log(this.selectedFreeDevices);
+      this.userSerivce.assignDevicesToUser(id, this.selectedFreeDevices).subscribe();
+      window.location.reload();
     }
   }
 
