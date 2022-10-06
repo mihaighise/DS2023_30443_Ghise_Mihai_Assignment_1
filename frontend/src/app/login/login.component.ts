@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
     this.inputPassword = (<HTMLInputElement>document.getElementById('password')).value;
     this.loginService.logIn(this.inputUsername, this.inputPassword).subscribe(
       (response: User) => {
-        console.log(response);
-
+        localStorage.setItem('userRole', response.userRole);
         if(response != null) {
           this.loginService.setLoggedUser(response);
           if(response.userRole === "USER")

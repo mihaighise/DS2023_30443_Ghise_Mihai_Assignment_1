@@ -14,12 +14,11 @@
           </path>
         </svg>
 
-        <h5 class="mt-4 text-xl font-bold text-gray-900">Science of Chemistry</h5>
+        <h5 class="mt-4 text-xl font-bold text-gray-900">{{ user.username }}</h5>
 
-        <p class="mt-2 hidden text-sm sm:block">
-          You can manage phone, email and chat conversations all from a single
-          mailbox.
-        </p>
+        <div *ngFor="let device of user.devices">
+            <p>{{device.description}}</p>
+        </div>
       </div>
     </a>
   </div>
