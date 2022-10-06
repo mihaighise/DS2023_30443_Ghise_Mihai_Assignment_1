@@ -1,5 +1,6 @@
 package com.utcn.assignment1.controller;
 
+import com.utcn.assignment1.model.Device;
 import com.utcn.assignment1.model.User;
 import com.utcn.assignment1.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +40,10 @@ public class UserController {
     @GetMapping(value = "/login/{username}/{password}")
     public ResponseEntity<User> logIn(@PathVariable String username, @PathVariable String password) {
         return ResponseEntity.ok().body(userService.logIn(username, password));
+    }
+
+    @PutMapping(value = "/assignDevices/{id}")
+    public void assignDevicesToUser(@PathVariable Long id, @RequestBody List<Device> devices) {
+        userService.assignDevicesToUser(id, devices);
     }
 }

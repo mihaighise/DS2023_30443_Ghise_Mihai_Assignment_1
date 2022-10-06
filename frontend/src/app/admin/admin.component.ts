@@ -73,4 +73,10 @@ export class AdminComponent implements OnInit {
     return false;
   }
 
+  assignDevicesToUser(id: number) {
+    if(this.selectedFreeDevices.length > 0) {
+      //call service to assign device to user
+    }
+  }
+
 }

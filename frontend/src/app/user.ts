@@ -1,7 +1,7 @@
 import { Device } from "./device";
 
 export interface User {
-    id?: number;
+    id: number;
     username: string;
     password: string;
     userRole: string;

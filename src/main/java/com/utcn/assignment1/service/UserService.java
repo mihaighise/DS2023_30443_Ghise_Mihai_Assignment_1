@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +54,22 @@ public class UserService implements IUserService {
             return user;
         }
         return null;
+    }
+
+    @Override
+    public void assignDevicesToUser(Long id, List<Device> devices) {
+        Optional<User> user = userRepository.findById(id);
+//        System.out.println(user);
+        System.out.println(devices);
+        if(user.isPresent()) {
+            devices.forEach(device -> {
+                device.setUser(user.get());
+                user.get().addDevice(device);
+                userRepository.save(user.get());
+                deviceRepository.save(device);
+            });
+        }
+        //user.ifPresent(value -> devices.forEach(value::addDevice));
     }
 
 
