@@ -11,4 +11,5 @@ public interface IDeviceService {
     User assignDeviceToUser(User user, Device device);
     List<Device> getFreeDevices();
     void deleteDevice(Long id);
+    List<Device> getDevicesByUser(String username);
 }

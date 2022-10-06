@@ -57,4 +57,16 @@ public class DeviceService implements IDeviceService {
         Optional<Device> device = deviceRepository.findById(id);
         device.ifPresent(deviceRepository::delete);
     }
+
+    @Override
+    public List<Device> getDevicesByUser(String username) {
+        User user = userRepository.findByUsername(username);
+        List<Device> usersDevices = new ArrayList<>();
+        deviceRepository.findAll().forEach(device -> {
+            if(device.getUser() == user) {
+                usersDevices.add(device);
+            }
+        });
+        return usersDevices;
+    }
 }

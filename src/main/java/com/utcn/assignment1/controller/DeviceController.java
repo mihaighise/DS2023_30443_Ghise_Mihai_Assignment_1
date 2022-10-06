@@ -1,6 +1,7 @@
 package com.utcn.assignment1.controller;
 
 import com.utcn.assignment1.model.Device;
+import com.utcn.assignment1.model.User;
 import com.utcn.assignment1.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class DeviceController {
     @GetMapping
     public ResponseEntity<List<Device>> getDevices() {
         return ResponseEntity.ok().body(deviceService.getDevices());
+    }
+
+    @GetMapping(value = "/byUser/{username}")
+    public ResponseEntity<List<Device>> getDevicesByUser(@PathVariable String username) {
+        return ResponseEntity.ok().body(deviceService.getDevicesByUser(username));
     }
 
     @GetMapping(value = "/free")

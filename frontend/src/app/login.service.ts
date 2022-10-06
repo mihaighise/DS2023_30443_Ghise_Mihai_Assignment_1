@@ -11,7 +11,7 @@ export class LoginService {
 
   private apiServerUrl = environment.apiBaseUrl;
   
-  private loggedUser!: User;
+  loggedUser!: User;
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +23,7 @@ export class LoginService {
     this.loggedUser = user;
   }
 
-  getLoggedUser(user: User): User {
+  getLoggedUser(): User {
     return this.loggedUser;
   }
 }
