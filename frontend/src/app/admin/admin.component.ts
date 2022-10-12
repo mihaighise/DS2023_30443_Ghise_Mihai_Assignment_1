@@ -86,4 +86,10 @@ export class AdminComponent implements OnInit {
       window.location.reload();
     }
   }
+
+  checkIfSelectedDevicesNotEmpty(): boolean {
+    if(this.selectedFreeDevices.length === 0)
+      return false;
+    return true;
+  }
 }
