@@ -16,6 +16,12 @@ export class AdminComponent implements OnInit {
   freeDevices!: Device[];
   selectedFreeDevices: Device[] = [];
 
+  showAddUser: boolean = false;
+  showAddDevice: boolean = false;
+
+  roleUser: boolean = false;
+  roleAdmin: boolean = false;
+
   constructor(private userSerivce: UserService,
     private deviceService: DeviceService) { }
 
@@ -78,7 +84,7 @@ export class AdminComponent implements OnInit {
     return false;
   }
 
-  assignDevicesToUser(id: number) {
+  assignDevicesToUser(id: number | undefined) {
     if(this.selectedFreeDevices.length > 0) {
       //call service to assign device to user
       console.log(this.selectedFreeDevices);
@@ -91,5 +97,52 @@ export class AdminComponent implements OnInit {
     if(this.selectedFreeDevices.length === 0)
       return false;
     return true;
+  }
+
+  toogleAddUser() {
+    this.showAddUser = !this.showAddUser;
+  }
+
+  toogleAddDevice() {
+    this.showAddDevice = !this.showAddDevice;
+  }
+
+  chooseUserRole() {
+    if(this.roleAdmin === false) {
+      this.roleUser = !this.roleUser;
+    } else {
+      this.roleAdmin = false;
+      this.roleUser = !this.roleUser
+    }
+  }
+
+  chooseAdminRole() {
+    if(this.roleUser === false) {
+      this.roleAdmin = !this.roleAdmin;
+    } else {
+      this.roleUser = false;
+      this.roleAdmin = !this.roleAdmin;
+    }
+  }
+
+  addNewUser() {
+    let username = (<HTMLInputElement>document.getElementById('username')).value;
+    let password = (<HTMLInputElement>document.getElementById('password')).value;
+    let userRole = '';
+
+    if(this.roleAdmin === true) {
+      userRole = 'ADMIN';
+    } else {
+      userRole = 'USER';
+    }
+
+
+    let newUser = {
+      username: username,
+      password: password,
+      userRole: userRole
+    }
+
+    this.userSerivce.addUser(newUser).subscribe();
   }
 }

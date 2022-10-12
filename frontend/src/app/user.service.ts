@@ -22,7 +22,11 @@ export class UserService {
     return this.http.delete<any>(`${this.apiServerUrl}/users/delete/` + username);
   }
 
-  public assignDevicesToUser(id: number, devices: Device[]) {
+  public assignDevicesToUser(id: number | undefined, devices: Device[]) {
     return this.http.put<any>(`${this.apiServerUrl}/users/assignDevices/` + id, devices);
+  }
+
+  public addUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiServerUrl}/users/add`, user);
   }
 }
