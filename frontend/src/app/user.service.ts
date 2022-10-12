@@ -18,6 +18,10 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiServerUrl}/users/getAll`);
   }
 
+  public deleteUser(username: string) {
+    return this.http.delete<any>(`${this.apiServerUrl}/users/delete/` + username);
+  }
+
   public assignDevicesToUser(id: number, devices: Device[]) {
     return this.http.put<any>(`${this.apiServerUrl}/users/assignDevices/` + id, devices);
   }

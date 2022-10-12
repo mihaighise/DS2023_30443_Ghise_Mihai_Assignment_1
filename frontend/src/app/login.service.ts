@@ -21,6 +21,7 @@ export class LoginService {
 
   setLoggedUser(user: User) {
     this.loggedUser = user;
+    localStorage.setItem('userRole', user.userRole);
   }
 
   getLoggedUser(): User {

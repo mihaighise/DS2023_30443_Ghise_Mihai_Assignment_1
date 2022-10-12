@@ -54,6 +54,11 @@ export class AdminComponent implements OnInit {
     window.location.reload();
   }
 
+  deleteUser(username: string) {
+    this.userSerivce.deleteUser(username).subscribe();
+    window.location.reload();
+  }
+
   toogleClick(device: Device) {
     if (this.checkSelectedDevice(device)) {
       const index = this.selectedFreeDevices.indexOf(device, 0);
@@ -81,5 +86,4 @@ export class AdminComponent implements OnInit {
       window.location.reload();
     }
   }
-
 }
