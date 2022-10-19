@@ -17,10 +17,10 @@ export class UserComponent implements OnInit {
               private loginService: LoginService) { }
 
   ngOnInit(): void {
-    this.getDevices(this.loginService.getLoggedUser().username);
+    this.getDevices(localStorage.getItem('username'));
   }
 
-  public getDevices(username: string) {
+  public getDevices(username: string | null) {
     this.deviceService.getDevicesByUser(username).subscribe(
       (response: Device[]) => {
         this.devices = response;

@@ -25,7 +25,7 @@ export class DeviceService {
     return this.http.delete<any>(`${this.apiServerUrl}/devices/delete/` + id);
   }
 
-  public getDevicesByUser(username: string): Observable<Device[]> {
+  public getDevicesByUser(username: string | null): Observable<Device[]> {
     return this.http.get<Device[]>(`${this.apiServerUrl}/devices/byUser/` + username);
   }
 

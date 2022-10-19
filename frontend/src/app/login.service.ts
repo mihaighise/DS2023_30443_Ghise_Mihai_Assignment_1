@@ -22,9 +22,10 @@ export class LoginService {
   setLoggedUser(user: User) {
     this.loggedUser = user;
     localStorage.setItem('userRole', user.userRole);
+    localStorage.setItem('username', user.username);
   }
 
-  getLoggedUser(): User {
-    return this.loggedUser;
+  getLoggedUser(): string | null{
+    return localStorage.getItem('username');
   }
 }
