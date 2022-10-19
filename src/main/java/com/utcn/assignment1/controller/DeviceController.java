@@ -2,8 +2,10 @@ package com.utcn.assignment1.controller;
 
 import com.utcn.assignment1.model.Device;
 import com.utcn.assignment1.model.User;
+import com.utcn.assignment1.model.dto.DeviceDTO;
 import com.utcn.assignment1.service.DeviceService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,11 @@ public class DeviceController {
     @GetMapping(value = "/byUser/{username}")
     public ResponseEntity<List<Device>> getDevicesByUser(@PathVariable String username) {
         return ResponseEntity.ok().body(deviceService.getDevicesByUser(username));
+    }
+
+    @PostMapping(value = "/add")
+    public ResponseEntity<Device> addDevice(@RequestBody DeviceDTO deviceDTO) {
+        return ResponseEntity.ok().body(deviceService.addDevice(deviceDTO));
     }
 
     @GetMapping(value = "/free")

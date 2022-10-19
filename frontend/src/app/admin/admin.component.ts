@@ -145,4 +145,18 @@ export class AdminComponent implements OnInit {
 
     this.userSerivce.addUser(newUser).subscribe();
   }
+
+  addNewDevice() {
+    let description = (<HTMLInputElement>document.getElementById('description')).value;
+    let address = (<HTMLInputElement>document.getElementById('address')).value;
+    let maximumEnergy = Number((<HTMLInputElement>document.getElementById('energy')).value);
+
+    let newDevice = {
+      description: description,
+      address: address,
+      maximumEnergy: maximumEnergy
+    }
+
+    this.deviceService.addDevice(newDevice).subscribe();
+  }
 }

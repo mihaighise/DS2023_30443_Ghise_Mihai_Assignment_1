@@ -14,7 +14,7 @@
 
       <div class="relative">
         <input type="text" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-          placeholder="Enter username" id="username"/>
+          placeholder="Enter username" id="username" />
       </div>
     </div>
 
@@ -22,7 +22,7 @@
       <label for="password" class="sr-only">Password</label>
       <div class="relative">
         <input type="password" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-          placeholder="Enter password" id="password"/>
+          placeholder="Enter password" id="password" />
 
         <span class="absolute inset-y-0 right-4 inline-flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -43,8 +43,7 @@
       <input type="checkbox" class="mx-3" name="roleAdmin" (click)="chooseAdminRole()" [checked]="roleAdmin">
     </div>
     <div class="text-center">
-      <button type="submit"
-        class="ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+      <button type="submit" class="ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
         (click)="addNewUser()">
         Add user
       </button>
@@ -52,10 +51,44 @@
   </form>
 </div>
 
+<div *ngIf="showAddDevice" class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-lg text-center">
+    <h1 class="text-2xl font-bold sm:text-3xl">Add new device</h1>
+  </div>
 
-<form *ngIf="showAddDevice">
-  <p>device</p>
-</form>
+  <form action="" class="mx-auto mt-8 mb-0 max-w-md space-y-4">
+    <div>
+      <label for="description" class="sr-only">Description</label>
+
+      <div class="relative">
+        <input type="text" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+          placeholder="Enter description" id="description" />
+      </div>
+    </div>
+
+    <div>
+      <label for="address" class="sr-only">Password</label>
+      <div class="relative">
+        <input type="text" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+          placeholder="Enter address" id="address" />
+      </div>
+    </div>
+
+    <div>
+      <label for="energy" class="sr-only">Energy</label>
+      <div class="relative">
+        <input type="number" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+          placeholder="Enter energy" id="energy" />
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+        (click)="addNewDevice()">
+        Add device
+      </button>
+    </div>
+  </form>
+</div>
 
 <h1 class="font-bold">Users: </h1>
 <div class="flex flex-wrap">

@@ -18,7 +18,7 @@ public class Timestamp {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Device device;
+    //private Device device;
 
     private LocalDateTime time;
 

@@ -2,6 +2,8 @@ package com.utcn.assignment1.service;
 
 import com.utcn.assignment1.model.Device;
 import com.utcn.assignment1.model.User;
+import com.utcn.assignment1.model.dto.DeviceDTO;
+import com.utcn.assignment1.model.mapper.DeviceMapper;
 import com.utcn.assignment1.repository.DeviceRepository;
 import com.utcn.assignment1.repository.UserRepository;
 import com.utcn.assignment1.service.interfaces.IDeviceService;
@@ -25,13 +27,16 @@ public class DeviceService implements IDeviceService {
     @Autowired
     private final UserRepository userRepository;
 
+    private final DeviceMapper deviceMapper;
+
     @Override
     public List<Device> getDevices() {
         return deviceRepository.findAll();
     }
 
     @Override
-    public Device addDevice(Device device) {
+    public Device addDevice(DeviceDTO deviceDTO) {
+        Device device = deviceMapper.convertToEntity(deviceDTO);
         return deviceRepository.save(device);
     }
 

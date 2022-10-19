@@ -28,4 +28,8 @@ export class DeviceService {
   public getDevicesByUser(username: string): Observable<Device[]> {
     return this.http.get<Device[]>(`${this.apiServerUrl}/devices/byUser/` + username);
   }
+
+  public addDevice(device: any): Observable<Device> {
+    return this.http.post<Device>(`${this.apiServerUrl}/devices/add`, device);
+  }
 }
