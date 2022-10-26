@@ -21,5 +21,10 @@
   </div>
 </div>
 
-<app-chart></app-chart>
+<div>
+  <p>Select date</p>
+  <input type="date" [(ngModel)]="dt" (change)="parseDate()">
+</div>
+
+<app-chart *ngIf="parsedDate !== ''" [inputDate]="parsedDate"></app-chart>
 

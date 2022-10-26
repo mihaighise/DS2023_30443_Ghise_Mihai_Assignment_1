@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Timestamp } from '../timestamp';
 import { TimestampService } from '../timestamp.service';
 
@@ -8,39 +8,38 @@ import { TimestampService } from '../timestamp.service';
 	styleUrls: ['./chart.component.css']
 })
 
-export class ChartComponent implements OnInit, OnChanges {
+export class ChartComponent implements OnChanges {
 
 	constructor(private timestampService: TimestampService) { }
 
 	timestamps: Timestamp[] = [];
 
-	dt!: any;
+	@Input() inputDate!: string;
 
 	dataPoints: any = [];
 	chart: any;
 
-	ngOnInit(): void {
-		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-		//Add 'implements OnInit' to the class.
-		this.getTimestampsByUser('mihaighise');
-		console.log(this.dt);
-	}
-
 	ngOnChanges(changes: SimpleChanges): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
-		console.log(this.dt);
+		console.log(this.inputDate);
+		this.getTimestampsByUser('mihaighise');
 	}
 
-
 	getTimestampsByUser(username: string) {
+		this.dataPoints.splice(0);
 		this.timestampService.getTimestampsByUser(username).subscribe(
 			(response: Timestamp[]) => {
 				this.timestamps = response;
 				for (let i = 0; i < this.timestamps.length; i++) {
-					this.dataPoints.push({ x: new Date(this.timestamps[i].time), y: Number(this.timestamps[i].consumption),
-					label: this.timestamps[i].time });
+					if (new Date(this.inputDate) <= new Date(this.timestamps[i].time) && new Date(this.timestamps[i].time) <= new Date(new Date(this.inputDate).getTime() + 24 * 60 * 60 * 1000)) {
+						this.dataPoints.push({
+							x: new Date(this.timestamps[i].time), y: Number(this.timestamps[i].consumption),
+							label: this.timestamps[i].time
+						});
+					}
 				}
+				console.log(this.dataPoints);
 				this.chart.subtitles[0].remove();
 			}
 		)
@@ -65,7 +64,7 @@ export class ChartComponent implements OnInit, OnChanges {
 		},
 		axisX: {
 			title: "timeline",
-			valueType: 'dateTime',
+			valueType: 'dateTime'
 		},
 		data: [{
 			type: "line",

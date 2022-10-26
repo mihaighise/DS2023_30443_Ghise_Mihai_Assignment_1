@@ -12,6 +12,8 @@ import { User } from '../user';
 export class UserComponent implements OnInit {
 
   devices!: Device[];
+  dt!: Date;
+  parsedDate: string = '';
 
   constructor(private deviceService: DeviceService,
               private loginService: LoginService) { }
@@ -26,6 +28,14 @@ export class UserComponent implements OnInit {
         this.devices = response;
       }
     )
+  }
+
+  parseDate() {
+    let newDate = new Date(this.dt);
+		let stringDate = newDate.toLocaleDateString();
+		this.parsedDate = stringDate.split('/')[2] + " " + stringDate.split('/')[0] + " " + stringDate.split('/')[1];
+		console.log(this.parsedDate);
+		console.log(new Date(new Date(this.parsedDate).getTime() + 24 * 60 * 60 * 1000))
   }
 
 
