@@ -8,9 +8,38 @@ import { TimestampService } from '../timestamp.service';
 	styleUrls: ['./chart.component.css']
 })
 
-export class ChartComponent implements OnChanges {
+export class ChartComponent implements OnInit, OnChanges {
 
-	constructor(private timestampService: TimestampService) { }
+	constructor(private timestampService: TimestampService) {
+		this.chartOptions = {
+			theme: "light2",
+			zoomEnabled: true,
+			exportEnabled: true,
+			title: {
+				text: "Full consumption chart"
+			},
+			subtitles: [{
+				text: "Loading Data...",
+				fontSize: 24,
+				horizontalAlign: "center",
+				verticalAlign: "center",
+				dockInsidePlotArea: true
+			}],
+			axisY: {
+				title: "Consumption",
+			},
+			axisX: {
+				title: "timeline",
+				valueType: 'dateTime'
+			},
+			data: [{
+				type: "line",
+				name: "All devices consumption",
+				xValues: "dateTime",
+				dataPoints: this.dataPoints
+			}]
+		}
+	 }
 
 	timestamps: Timestamp[] = [];
 
@@ -19,9 +48,48 @@ export class ChartComponent implements OnChanges {
 	dataPoints: any = [];
 	chart: any;
 
+	chartOptions!: any;
+
+	ngOnInit() {
+		//Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+		//Add 'implements OnInit' to the class.
+	}
+
+	getChartInstance(chart: object) {
+		this.chart = chart;
+	}
+
 	ngOnChanges(changes: SimpleChanges): void {
 		//Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
 		//Add '${implements OnChanges}' to the class.
+		this.chartOptions = {
+			theme: "light2",
+			zoomEnabled: true,
+			exportEnabled: true,
+			title: {
+				text: "Full consumption chart"
+			},
+			subtitles: [{
+				text: "Loading Data...",
+				fontSize: 24,
+				horizontalAlign: "center",
+				verticalAlign: "center",
+				dockInsidePlotArea: true
+			}],
+			axisY: {
+				title: "Consumption",
+			},
+			axisX: {
+				title: "timeline",
+				valueType: 'dateTime'
+			},
+			data: [{
+				type: "line",
+				name: "All devices consumption",
+				xValues: "dateTime",
+				dataPoints: this.dataPoints
+			}]
+		}
 		console.log(this.inputDate);
 		this.getTimestampsByUser('mihaighise');
 	}
@@ -43,38 +111,5 @@ export class ChartComponent implements OnChanges {
 				this.chart.subtitles[0].remove();
 			}
 		)
-	}
-
-	chartOptions = {
-		theme: "light2",
-		zoomEnabled: true,
-		exportEnabled: true,
-		title: {
-			text: "Full consumption chart"
-		},
-		subtitles: [{
-			text: "Loading Data...",
-			fontSize: 24,
-			horizontalAlign: "center",
-			verticalAlign: "center",
-			dockInsidePlotArea: true
-		}],
-		axisY: {
-			title: "Consumption",
-		},
-		axisX: {
-			title: "timeline",
-			valueType: 'dateTime'
-		},
-		data: [{
-			type: "line",
-			name: "All devices consumption",
-			xValues: "dateTime",
-			dataPoints: this.dataPoints
-		}]
-	}
-
-	getChartInstance(chart: object) {
-		this.chart = chart;
 	}
 }
