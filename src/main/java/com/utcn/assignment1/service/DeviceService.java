@@ -74,4 +74,13 @@ public class DeviceService implements IDeviceService {
         });
         return usersDevices;
     }
+
+    @Override
+    public Device updateDevice(Long oldDeviceId, Device newDevice) {
+        Optional<Device> oldDevice = deviceRepository.findById(oldDeviceId);
+        oldDevice.get().setDescription(newDevice.getDescription());
+        oldDevice.get().setAddress(newDevice.getAddress());
+        oldDevice.get().setMaximumEnergy(newDevice.getMaximumEnergy());
+        return deviceRepository.save(oldDevice.get());
+    }
 }

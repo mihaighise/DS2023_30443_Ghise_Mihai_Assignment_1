@@ -58,7 +58,7 @@ export class AdminComponent implements OnInit {
     )
   }
 
-  deleteDevice(id: number) {
+  deleteDevice(id: number | undefined) {
     this.deviceService.deleteDevice(id).subscribe();
     window.location.reload();
   }
@@ -191,5 +191,20 @@ export class AdminComponent implements OnInit {
     }
 
     this.deviceService.addDevice(newDevice).subscribe();
+  }
+
+  editDevice() {
+    let oldDeviceId = Number(document.getElementById('oldDeviceId')?.textContent);
+    let description = (<HTMLInputElement>document.getElementById('description')).value;
+    let address = (<HTMLInputElement>document.getElementById('address')).value;
+    let maximumEnergy = Number((<HTMLInputElement>document.getElementById('energy')).value);
+
+    let newDevice = {
+      description: description,
+      address: address,
+      maximumEnergy: maximumEnergy
+    }
+
+    this.deviceService.updateDevice(oldDeviceId, newDevice).subscribe();
   }
 }

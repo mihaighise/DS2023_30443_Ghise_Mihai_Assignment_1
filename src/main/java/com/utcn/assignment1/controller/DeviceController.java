@@ -44,4 +44,9 @@ public class DeviceController {
     public void deleteDevice(@PathVariable Long id) {
         deviceService.deleteDevice(id);
     }
+
+    @PutMapping(value = "/update/{oldDeviceId}")
+    public ResponseEntity<Device> updateDevice(@PathVariable Long oldDeviceId, @RequestBody Device newDevice) {
+        return ResponseEntity.ok().body(deviceService.updateDevice(oldDeviceId, newDevice));
+    }
 }

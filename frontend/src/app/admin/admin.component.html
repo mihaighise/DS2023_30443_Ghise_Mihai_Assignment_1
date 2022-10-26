@@ -146,6 +146,50 @@
   </form>
 </div>
 
+
+<div *ngIf="showEditDevice" class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-lg text-center">
+    <h1 class="text-2xl font-bold sm:text-3xl">Edit device</h1>
+  </div>
+
+  <form action="" class="mx-auto mt-8 mb-0 max-w-md space-y-4">
+    <div>
+      <p-dropdown class="px-6 py-6 mx-6 my-6" [options]="devices" placeholder="Select a device" optionLabel="id"
+        [showClear]="true" id="oldDeviceId"></p-dropdown>
+
+      <label for="description" class="sr-only">Description</label>
+
+      <div class="relative">
+        <input type="text" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+          placeholder="Enter description" id="description" />
+      </div>
+    </div>
+
+    <div>
+      <label for="address" class="sr-only">Password</label>
+      <div class="relative">
+        <input type="text" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+          placeholder="Enter address" id="address" />
+      </div>
+    </div>
+
+    <div>
+      <label for="energy" class="sr-only">Energy</label>
+      <div class="relative">
+        <input type="number" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+          placeholder="Enter energy" id="energy" />
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+        (click)="editDevice()">
+        Edit device
+      </button>
+    </div>
+  </form>
+</div>
+
+
 <h1 class="font-bold">Users: </h1>
 <div class="flex flex-wrap">
   <div class="p-2 flex flex-wrap" *ngFor="let user of users">

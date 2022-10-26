@@ -21,7 +21,7 @@ export class DeviceService {
     return this.http.get<Device[]>(`${this.apiServerUrl}/devices/free`);
   }
 
-  public deleteDevice(id: number) {
+  public deleteDevice(id: number | undefined) {
     return this.http.delete<any>(`${this.apiServerUrl}/devices/delete/` + id);
   }
 
@@ -31,5 +31,9 @@ export class DeviceService {
 
   public addDevice(device: any): Observable<Device> {
     return this.http.post<Device>(`${this.apiServerUrl}/devices/add`, device);
+  }
+
+  public updateDevice(oldDeviceId: number, newDevice: Device): Observable<Device> {
+    return this.http.put<Device>(`${this.apiServerUrl}/devices/update/` + oldDeviceId, newDevice);
   }
 }

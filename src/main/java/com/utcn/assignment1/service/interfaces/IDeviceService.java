@@ -13,4 +13,5 @@ public interface IDeviceService {
     List<Device> getFreeDevices();
     void deleteDevice(Long id);
     List<Device> getDevicesByUser(String username);
+    Device updateDevice(Long oldDeviceId, Device newDevice);
 }
