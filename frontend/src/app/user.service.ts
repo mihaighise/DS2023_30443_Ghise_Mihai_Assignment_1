@@ -29,4 +29,8 @@ export class UserService {
   public addUser(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiServerUrl}/users/add`, user);
   }
+
+  public updateUser(oldUsername: string | undefined, newUser: User): Observable<User> {
+    return this.http.put<User>(`${this.apiServerUrl}/users/update/` + oldUsername, newUser);
+  }
 }

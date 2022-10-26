@@ -46,4 +46,9 @@ public class UserController {
     public void assignDevicesToUser(@PathVariable Long id, @RequestBody List<Device> devices) {
         userService.assignDevicesToUser(id, devices);
     }
+
+    @PutMapping(value = "/update/{oldUsername}")
+    public ResponseEntity<User> updateUser(@PathVariable String oldUsername, @RequestBody User newUser) {
+        return ResponseEntity.ok().body(userService.updateUser(oldUsername, newUser));
+    }
 }

@@ -9,7 +9,7 @@ public interface IUserService {
     List<User> getUsers();
     User addUser(User user);
     void deleteUser(String username);
-    User updateUser(User oldUser, User newUser);
+    User updateUser(String oldUsername, User newUser);
     User logIn(String username, String password);
     void assignDevicesToUser(Long id, List<Device> devices);
 }

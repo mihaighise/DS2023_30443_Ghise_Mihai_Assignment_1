@@ -19,6 +19,9 @@ export class AdminComponent implements OnInit {
   showAddUser: boolean = false;
   showAddDevice: boolean = false;
 
+  showEditUser: boolean = false;
+  showEditDevice: boolean = false;
+
   roleUser: boolean = false;
   roleAdmin: boolean = false;
 
@@ -107,6 +110,14 @@ export class AdminComponent implements OnInit {
     this.showAddDevice = !this.showAddDevice;
   }
 
+  toggleEditUser() {
+    this.showEditUser = !this.showEditUser;
+  }
+
+  toggleEditDevice() {
+    this.showEditDevice = !this.showEditDevice;
+  }
+
   chooseUserRole() {
     if(this.roleAdmin === false) {
       this.roleUser = !this.roleUser;
@@ -144,6 +155,28 @@ export class AdminComponent implements OnInit {
     }
 
     this.userSerivce.addUser(newUser).subscribe();
+  }
+
+  editUser() {
+    let oldUsername = document.getElementById('oldUsername')?.textContent;
+  
+    let username = (<HTMLInputElement>document.getElementById('username')).value;
+    let password = (<HTMLInputElement>document.getElementById('password')).value;
+    let userRole = '';
+
+    if(this.roleAdmin === true) {
+      userRole = 'ADMIN';
+    } else {
+      userRole = 'USER';
+    }
+
+    let newUser = {
+      username: username,
+      password: password,
+      userRole: userRole
+    }
+    if(oldUsername !== null)
+      this.userSerivce.updateUser(oldUsername, newUser).subscribe();
   }
 
   addNewDevice() {

@@ -43,8 +43,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User updateUser(User oldUser, User newUser) {
-        return null;
+    public User updateUser(String oldUsername, User newUser) {
+        User oldUser = userRepository.findByUsername(oldUsername);
+        oldUser.setUsername(newUser.getUsername());
+        oldUser.setPassword(newUser.getPassword());
+        oldUser.setUserRole(newUser.getUserRole());
+        return userRepository.save(oldUser);
     }
 
     @Override
