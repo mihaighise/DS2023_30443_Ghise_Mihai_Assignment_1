@@ -27,7 +27,7 @@ public class Timestamp {
     @JsonBackReference
     private Device device;
 
-    @JsonFormat(pattern = "yyyy MM dd hh:mm")
+    @JsonFormat(pattern = "yyyy MM dd HH:mm")
     private LocalDateTime time;
 
     private float consumption;

@@ -1,4 +1,7 @@
-<p>chart works!</p>
+<form class="form-group">
+    <p>Select date</p>
+    <input type="date" id="dt" [ngModel] ="dt" name="dt">{{dt}}
+</form>
 <div>
     <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}" (chartInstance)="getChartInstance($event)"></canvasjs-chart>    
 </div> 
