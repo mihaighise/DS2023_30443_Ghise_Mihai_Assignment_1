@@ -30,7 +30,7 @@ public class TimestampService implements ITimestampService {
         User user = userRepository.findByUsername(username);
         List<Timestamp> result = new ArrayList<>();
         user.getDevices().forEach(device -> {
-            result.add(timestampRepository.findByDevice(device));
+            result.addAll(timestampRepository.findByDevice(device));
         });
         return result;
     }

@@ -1,6 +1,7 @@
 package com.utcn.assignment1.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,7 @@ public class Timestamp {
     @JsonBackReference
     private Device device;
 
+    @JsonFormat(pattern = "yyyy MM dd hh:mm")
     private LocalDateTime time;
 
     private float consumption;
