@@ -21,6 +21,4 @@ public class DeviceDTO {
     private String address;
 
     private Float maximumEnergy;
-
-    private User user;
 }

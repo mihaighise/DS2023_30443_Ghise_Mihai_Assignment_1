@@ -5,5 +5,5 @@ export interface Device {
     description: string;
     address: string;
     maximumEnergy: number;
-    user: User;
+    user?: User;
 }

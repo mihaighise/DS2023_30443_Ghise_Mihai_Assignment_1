@@ -14,7 +14,6 @@ public class DeviceMapper implements Mapper<Device, DeviceDTO> {
                     .description(device.getDescription())
                     .address(device.getAddress())
                     .maximumEnergy(device.getMaximumEnergy())
-                    .user(device.getUser())
                     .build();
         }
         return null;
@@ -28,7 +27,6 @@ public class DeviceMapper implements Mapper<Device, DeviceDTO> {
                     .description(deviceDTO.getDescription())
                     .address(deviceDTO.getAddress())
                     .maximumEnergy(deviceDTO.getMaximumEnergy())
-                    .user(deviceDTO.getUser())
                     .build();
         }
         return null;
