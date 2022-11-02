@@ -2,6 +2,7 @@ package com.utcn.assignment1.controller;
 
 import com.utcn.assignment1.model.Device;
 import com.utcn.assignment1.model.User;
+import com.utcn.assignment1.model.dto.UserDTO;
 import com.utcn.assignment1.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -22,12 +23,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(value = "/getAll")
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> addUser(@RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/users/add").toUriString());
         return ResponseEntity.created(uri).body(userService.addUser(user));
     }
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/login/{username}/{password}")
-    public ResponseEntity<User> logIn(@PathVariable String username, @PathVariable String password) {
+    public ResponseEntity<UserDTO> logIn(@PathVariable String username, @PathVariable String password) {
         return ResponseEntity.ok().body(userService.logIn(username, password));
     }
 
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/update/{oldUsername}")
-    public ResponseEntity<User> updateUser(@PathVariable String oldUsername, @RequestBody User newUser) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String oldUsername, @RequestBody User newUser) {
         return ResponseEntity.ok().body(userService.updateUser(oldUsername, newUser));
     }
 }

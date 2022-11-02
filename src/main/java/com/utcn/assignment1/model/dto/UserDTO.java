@@ -2,19 +2,18 @@ package com.utcn.assignment1.model.dto;
 
 import lombok.*;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
-public class DeviceDTO {
+public class UserDTO {
 
     @EqualsAndHashCode.Include
     private Long id;
-
-    private String description;
-
-    private String address;
-
-    private Float maximumEnergy;
+    private String username;
+    private String userRole;
+    private Set<DeviceDTO> devices;
 }

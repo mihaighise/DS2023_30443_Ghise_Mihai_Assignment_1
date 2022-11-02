@@ -2,6 +2,8 @@ package com.utcn.assignment1.service;
 
 import com.utcn.assignment1.model.Device;
 import com.utcn.assignment1.model.User;
+import com.utcn.assignment1.model.dto.UserDTO;
+import com.utcn.assignment1.model.mapper.UserMapper;
 import com.utcn.assignment1.repository.DeviceRepository;
 import com.utcn.assignment1.repository.UserRepository;
 import com.utcn.assignment1.service.interfaces.IUserService;
@@ -24,14 +26,17 @@ public class UserService implements IUserService {
     @Autowired
     private final DeviceRepository deviceRepository;
 
+    private final UserMapper userMapper;
+
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getUsers() {
+        return userMapper.convertAllToDTO(userRepository.findAll());
     }
 
     @Override
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public UserDTO addUser(User user) {
+        User savedUser = userRepository.save(user);
+        return userMapper.convertToDTO(savedUser);
     }
 
     @Override
@@ -43,19 +48,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User updateUser(String oldUsername, User newUser) {
+    public UserDTO updateUser(String oldUsername, User newUser) {
         User oldUser = userRepository.findByUsername(oldUsername);
         oldUser.setUsername(newUser.getUsername());
         oldUser.setPassword(newUser.getPassword());
         oldUser.setUserRole(newUser.getUserRole());
-        return userRepository.save(oldUser);
+        User savedUser = userRepository.save(oldUser);
+        return userMapper.convertToDTO(savedUser);
     }
 
     @Override
-    public User logIn(String username, String password) {
+    public UserDTO logIn(String username, String password) {
         User user = userRepository.findByUsername(username);
         if(user.getPassword().equals(password)) {
-            return user;
+            return userMapper.convertToDTO(user);
         }
         return null;
     }
