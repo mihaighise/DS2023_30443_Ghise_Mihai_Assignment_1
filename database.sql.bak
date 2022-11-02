@@ -8,7 +8,8 @@ INSERT INTO public.devices(id, description, address, maximum_energy, id_user)
 	VALUES (1, 'description 1', 'bucuresti', 134, 1),
 	(2, 'description 2', 'sibiu', 156, 3),
 	(3, 'description 3', 'timisoara', 178, null),
-	(4, 'description 4', 'cluj', 190, null);
+	(4, 'description 4', 'cluj', 190, null),
+	(5, 'description 5', 'salaj', 200, 1);
 	
 INSERT INTO public.timestamp(id, id_device, "time", consumption) 
 	VALUES (1, 1, '20221025 17:00', 10),
@@ -19,4 +20,7 @@ INSERT INTO public.timestamp(id, id_device, "time", consumption)
 	(6, 1, '20221025 22:00', 56),
 	(7, 1, '20221025 23:00', 78),
 	(8, 1, '20221026 00:00', 100),
-	(9, 1, '20221026 01:00', 125);
+	(9, 1, '20221026 01:00', 125),
+	(10, 5, '20221025 22:00', 10),
+	(11, 5, '20221025 23:00', 40),
+	(12, 5, '20221027 08:00', 105);

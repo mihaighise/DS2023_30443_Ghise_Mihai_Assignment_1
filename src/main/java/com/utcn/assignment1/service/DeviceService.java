@@ -5,6 +5,7 @@ import com.utcn.assignment1.model.User;
 import com.utcn.assignment1.model.dto.DeviceDTO;
 import com.utcn.assignment1.model.mapper.DeviceMapper;
 import com.utcn.assignment1.repository.DeviceRepository;
+import com.utcn.assignment1.repository.TimestampRepository;
 import com.utcn.assignment1.repository.UserRepository;
 import com.utcn.assignment1.service.interfaces.IDeviceService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,9 @@ public class DeviceService implements IDeviceService {
 
     @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    private final TimestampRepository timestampRepository;
 
     private final DeviceMapper deviceMapper;
 
@@ -61,6 +65,11 @@ public class DeviceService implements IDeviceService {
     @Override
     public void deleteDevice(Long id) {
         Optional<Device> device = deviceRepository.findById(id);
+        timestampRepository.findAll().forEach(timestamp -> {
+            if(timestamp.getDevice() == device.get()) {
+                timestampRepository.delete(timestamp);
+            }
+        });
         device.ifPresent(deviceRepository::delete);
     }
 

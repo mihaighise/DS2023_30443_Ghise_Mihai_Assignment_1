@@ -20,6 +20,7 @@ public class Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_timestamp")
     private Long id;
 
     @ManyToOne
