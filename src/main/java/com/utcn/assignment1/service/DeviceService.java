@@ -30,14 +30,15 @@ public class DeviceService implements IDeviceService {
     private final DeviceMapper deviceMapper;
 
     @Override
-    public List<Device> getDevices() {
-        return deviceRepository.findAll();
+    public List<DeviceDTO> getDevices() {
+        return deviceMapper.convertAllToDTO(deviceRepository.findAll());
     }
 
     @Override
-    public Device addDevice(DeviceDTO deviceDTO) {
+    public DeviceDTO addDevice(DeviceDTO deviceDTO) {
         Device device = deviceMapper.convertToEntity(deviceDTO);
-        return deviceRepository.save(device);
+        Device newSavedDevice = deviceRepository.save(device);
+        return deviceMapper.convertToDTO(newSavedDevice);
     }
 
     @Override
@@ -47,11 +48,11 @@ public class DeviceService implements IDeviceService {
     }
 
     @Override
-    public List<Device> getFreeDevices() {
-        List<Device> freeDevices = new ArrayList<>();
+    public List<DeviceDTO> getFreeDevices() {
+        List<DeviceDTO> freeDevices = new ArrayList<>();
         deviceRepository.findAll().forEach(device -> {
             if(device.getUser() == null) {
-                freeDevices.add(device);
+                freeDevices.add(deviceMapper.convertToDTO(device));
             }
         });
         return freeDevices;
@@ -64,23 +65,24 @@ public class DeviceService implements IDeviceService {
     }
 
     @Override
-    public List<Device> getDevicesByUser(String username) {
+    public List<DeviceDTO> getDevicesByUser(String username) {
         User user = userRepository.findByUsername(username);
-        List<Device> usersDevices = new ArrayList<>();
+        List<DeviceDTO> usersDevices = new ArrayList<>();
         deviceRepository.findAll().forEach(device -> {
             if(device.getUser() == user) {
-                usersDevices.add(device);
+                usersDevices.add(deviceMapper.convertToDTO(device));
             }
         });
         return usersDevices;
     }
 
     @Override
-    public Device updateDevice(Long oldDeviceId, Device newDevice) {
+    public DeviceDTO updateDevice(Long oldDeviceId, DeviceDTO newDevice) {
         Optional<Device> oldDevice = deviceRepository.findById(oldDeviceId);
         oldDevice.get().setDescription(newDevice.getDescription());
         oldDevice.get().setAddress(newDevice.getAddress());
         oldDevice.get().setMaximumEnergy(newDevice.getMaximumEnergy());
-        return deviceRepository.save(oldDevice.get());
+        Device newSavedDevice = deviceRepository.save(oldDevice.get());
+        return deviceMapper.convertToDTO(newSavedDevice);
     }
 }

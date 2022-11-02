@@ -91,10 +91,10 @@ export class ChartComponent implements OnInit, OnChanges {
 			}]
 		}
 		console.log(this.inputDate);
-		this.getTimestampsByUser('mihaighise');
+		this.getTimestampsByUser(localStorage.getItem('username'));
 	}
 
-	getTimestampsByUser(username: string) {
+	getTimestampsByUser(username: string | null) {
 		this.dataPoints.splice(0);
 		this.timestampService.getTimestampsByUser(username).subscribe(
 			(response: Timestamp[]) => {

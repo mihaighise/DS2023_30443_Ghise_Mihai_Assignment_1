@@ -7,11 +7,11 @@ import com.utcn.assignment1.model.dto.DeviceDTO;
 import java.util.List;
 
 public interface IDeviceService {
-    List<Device> getDevices();
-    Device addDevice(DeviceDTO deviceDTO);
+    List<DeviceDTO> getDevices();
+    DeviceDTO addDevice(DeviceDTO deviceDTO);
     User assignDeviceToUser(User user, Device device);
-    List<Device> getFreeDevices();
+    List<DeviceDTO> getFreeDevices();
     void deleteDevice(Long id);
-    List<Device> getDevicesByUser(String username);
-    Device updateDevice(Long oldDeviceId, Device newDevice);
+    List<DeviceDTO> getDevicesByUser(String username);
+    DeviceDTO updateDevice(Long oldDeviceId, DeviceDTO newDevice);
 }

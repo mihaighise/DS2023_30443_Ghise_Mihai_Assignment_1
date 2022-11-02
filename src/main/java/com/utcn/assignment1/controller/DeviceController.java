@@ -21,22 +21,22 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     @GetMapping
-    public ResponseEntity<List<Device>> getDevices() {
+    public ResponseEntity<List<DeviceDTO>> getDevices() {
         return ResponseEntity.ok().body(deviceService.getDevices());
     }
 
     @GetMapping(value = "/byUser/{username}")
-    public ResponseEntity<List<Device>> getDevicesByUser(@PathVariable String username) {
+    public ResponseEntity<List<DeviceDTO>> getDevicesByUser(@PathVariable String username) {
         return ResponseEntity.ok().body(deviceService.getDevicesByUser(username));
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<Device> addDevice(@RequestBody DeviceDTO deviceDTO) {
+    public ResponseEntity<DeviceDTO> addDevice(@RequestBody DeviceDTO deviceDTO) {
         return ResponseEntity.ok().body(deviceService.addDevice(deviceDTO));
     }
 
     @GetMapping(value = "/free")
-    public ResponseEntity<List<Device>> getFreeDevices() {
+    public ResponseEntity<List<DeviceDTO>> getFreeDevices() {
         return ResponseEntity.ok().body(deviceService.getFreeDevices());
     }
 
@@ -46,7 +46,7 @@ public class DeviceController {
     }
 
     @PutMapping(value = "/update/{oldDeviceId}")
-    public ResponseEntity<Device> updateDevice(@PathVariable Long oldDeviceId, @RequestBody Device newDevice) {
+    public ResponseEntity<DeviceDTO> updateDevice(@PathVariable Long oldDeviceId, @RequestBody DeviceDTO newDevice) {
         return ResponseEntity.ok().body(deviceService.updateDevice(oldDeviceId, newDevice));
     }
 }
