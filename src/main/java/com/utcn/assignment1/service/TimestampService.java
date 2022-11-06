@@ -26,11 +26,13 @@ public class TimestampService implements ITimestampService {
     private final UserRepository userRepository;
 
     @Override
-    public List<Timestamp> getByUser(String username) {
+    public List<Timestamp> getByUser(String username, Long deviceId) {
         User user = userRepository.findByUsername(username);
         List<Timestamp> result = new ArrayList<>();
         user.getDevices().forEach(device -> {
-            result.addAll(timestampRepository.findByDevice(device));
+            if(device.getId().equals(deviceId)) {
+                result.addAll(timestampRepository.findByDevice(device));
+            }
         });
         return result;
     }

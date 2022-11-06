@@ -20,8 +20,8 @@ public class TimestampController {
     @Autowired
     private final TimestampService timestampService;
 
-    @GetMapping(value = "/byUser/{username}")
-    public ResponseEntity<List<Timestamp>> getTimestampsByUser(@PathVariable String username) {
-        return ResponseEntity.ok().body(timestampService.getByUser(username));
+    @GetMapping(value = "/byUser/{username}/{deviceId}")
+    public ResponseEntity<List<Timestamp>> getTimestampsByUser(@PathVariable String username, @PathVariable Long deviceId) {
+        return ResponseEntity.ok().body(timestampService.getByUser(username, deviceId));
     }
 }

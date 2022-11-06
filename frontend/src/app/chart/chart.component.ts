@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Device } from '../device';
 import { Timestamp } from '../timestamp';
 import { TimestampService } from '../timestamp.service';
 
@@ -44,6 +45,7 @@ export class ChartComponent implements OnInit, OnChanges {
 	timestamps: Timestamp[] = [];
 
 	@Input() inputDate!: string;
+	@Input() inputDevice!: Device;
 
 	dataPoints: any = [];
 	chart: any;
@@ -91,12 +93,12 @@ export class ChartComponent implements OnInit, OnChanges {
 			}]
 		}
 		console.log(this.inputDate);
-		this.getTimestampsByUser(localStorage.getItem('username'));
+		this.getTimestampsByUser(localStorage.getItem('username'), this.inputDevice.id);
 	}
 
-	getTimestampsByUser(username: string | null) {
+	getTimestampsByUser(username: string | null, deviceId: number | undefined) {
 		this.dataPoints.splice(0);
-		this.timestampService.getTimestampsByUser(username).subscribe(
+		this.timestampService.getTimestampsByUser(username, deviceId).subscribe(
 			(response: Timestamp[]) => {
 				this.timestamps = response;
 				for (let i = 0; i < this.timestamps.length; i++) {

@@ -1,7 +1,7 @@
 <h2 class="font-bold">All devices: </h2>
 <div class="flex flex-wrap">
   <div class="p-2 w-1/4" *ngFor="let device of devices">
-    <div class="relative block rounded-xl border border-gray-100 p-8 shadow-xl">
+    <div [ngClass]="selectedDevice === device ? 'relative block rounded-xl border border-green-500 p-8 shadow-xl' : 'relative block rounded-xl border border-grey-100 p-8 shadow-xl'" (click)="selectDevice(device)">
 
       <div class="mt-4 text-gray-500 sm:pr-8">
         <svg class="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -26,5 +26,5 @@
   <input type="date" [(ngModel)]="dt" (change)="parseDate()">
 </div>
 
-<app-chart *ngIf="parsedDate !== ''" [inputDate]="parsedDate"></app-chart>
+<app-chart *ngIf="parsedDate !== ''" [inputDate]="parsedDate" [inputDevice]="selectedDevice"></app-chart>
 

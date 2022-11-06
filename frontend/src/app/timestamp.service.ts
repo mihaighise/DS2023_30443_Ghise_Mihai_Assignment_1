@@ -13,7 +13,7 @@ export class TimestampService {
 
   constructor(private http: HttpClient) { }
 
-  public getTimestampsByUser(username: string | null): Observable<Timestamp[]> {
-    return this.http.get<Timestamp[]>(`${this.apiServerUrl}/timestamps/byUser/` + username)
+  public getTimestampsByUser(username: string | null, deviceId: number | undefined): Observable<Timestamp[]> {
+    return this.http.get<Timestamp[]>(`${this.apiServerUrl}/timestamps/byUser/` + username + '/' + deviceId)
   }
 }

@@ -7,6 +7,6 @@ import com.utcn.assignment1.model.User;
 import java.util.List;
 
 public interface ITimestampService {
-    List<Timestamp> getByUser(String username);
+    List<Timestamp> getByUser(String username, Long deviceId);
     List<Timestamp> getByDevice(Device device);
 }
