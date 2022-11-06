@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/devices")
+@CrossOrigin
 public class DeviceController {
 
     @Autowired
