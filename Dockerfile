@@ -13,7 +13,7 @@ FROM openjdk:17.0.2-oracle
 
 ENV TZ=UTC
 ENV DB_IP=host.docker.internal
-ENV DB_PORT=5432
+ENV DB_PORT=5433
 ENV DB_USER=postgres
 ENV DB_PASSWORD=12345
 ENV DB_DBNAME=assignment1
