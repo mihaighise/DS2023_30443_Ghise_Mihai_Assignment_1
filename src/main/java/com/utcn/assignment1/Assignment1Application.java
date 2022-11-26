@@ -1,9 +1,11 @@
 package com.utcn.assignment1;
 
+import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -18,6 +20,10 @@ public class Assignment1Application {
 		SpringApplication.run(Assignment1Application.class, args);
 	}
 
+	@Bean
+	public Queue hello() {
+		return new Queue("hello");
+	}
 //	@Bean
 //	public CorsFilter corsFilter() {
 //		CorsConfiguration corsConfiguration = new CorsConfiguration();

@@ -41,4 +41,9 @@ public class TimestampService implements ITimestampService {
     public List<Timestamp> getByDevice(Device device) {
         return null;
     }
+
+    @Override
+    public Timestamp saveTimestamp(Timestamp timestamp) {
+        return timestampRepository.save(timestamp);
+    }
 }
