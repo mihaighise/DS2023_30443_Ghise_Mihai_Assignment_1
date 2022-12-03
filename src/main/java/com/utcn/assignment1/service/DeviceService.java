@@ -94,4 +94,9 @@ public class DeviceService implements IDeviceService {
         Device newSavedDevice = deviceRepository.save(oldDevice.get());
         return deviceMapper.convertToDTO(newSavedDevice);
     }
+
+    @Override
+    public DeviceDTO findById(Long id) {
+        return deviceMapper.convertToDTO(deviceRepository.findById(id).get());
+    }
 }

@@ -14,4 +14,5 @@ public interface IDeviceService {
     void deleteDevice(Long id);
     List<DeviceDTO> getDevicesByUser(String username);
     DeviceDTO updateDevice(Long oldDeviceId, DeviceDTO newDevice);
+    DeviceDTO findById(Long id);
 }

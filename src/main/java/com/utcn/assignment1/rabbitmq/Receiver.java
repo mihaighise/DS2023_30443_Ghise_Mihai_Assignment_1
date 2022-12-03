@@ -3,7 +3,10 @@ package com.utcn.assignment1.rabbitmq;
 import com.google.gson.Gson;
 import com.utcn.assignment1.model.Device;
 import com.utcn.assignment1.model.Timestamp;
+import com.utcn.assignment1.model.dto.DeviceDTO;
+import com.utcn.assignment1.model.mapper.DeviceMapper;
 import com.utcn.assignment1.repository.DeviceRepository;
+import com.utcn.assignment1.service.DeviceService;
 import com.utcn.assignment1.service.TimestampService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -20,7 +23,10 @@ import java.util.Optional;
 public class Receiver {
 
     @Autowired
-    private final DeviceRepository deviceRepository;
+    private final DeviceMapper deviceMapper;
+
+    @Autowired
+    private final DeviceService deviceService;
 
     @Autowired
     private final TimestampService timestampService;
@@ -40,14 +46,10 @@ public class Receiver {
             if(LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 1).getTimestamp()).getMinute() !=
                     LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 2).getTimestamp()).getMinute()) {
                 //TODO sent to database the currentHourlyConsumption and reset it
-                Optional<Device> device = deviceRepository.findById(messageToSave.id_device);
-                System.out.println(device);
-                LocalDateTime parsedDate = LocalDateTime.parse(messageToSave.getTimestamp(), formatter);
-                System.out.println(parsedDate);
-                Timestamp timestamp = new Timestamp(null, device.get(), parsedDate, messageToSave.getValue());
-                System.out.println(timestamp);
+                DeviceDTO device = deviceService.findById(messageToSave.id_device);
+                LocalDateTime parsedDate = LocalDateTime.parse(messageToSave.getTimestamp());
+                Timestamp timestamp = new Timestamp(null, deviceMapper.convertToEntity(device), parsedDate, messageToSave.getValue());
                 timestampService.saveTimestamp(timestamp);
-                System.out.println("saved");
             }
         }
         System.out.println("Received message and deserialized to 'CustomMessage': {}" + customMessage.toString());
