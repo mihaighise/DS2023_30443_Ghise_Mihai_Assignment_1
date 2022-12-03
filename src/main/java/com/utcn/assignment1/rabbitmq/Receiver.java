@@ -8,6 +8,8 @@ import com.utcn.assignment1.model.mapper.DeviceMapper;
 import com.utcn.assignment1.repository.DeviceRepository;
 import com.utcn.assignment1.service.DeviceService;
 import com.utcn.assignment1.service.TimestampService;
+import com.utcn.assignment1.websockets.WebSocketMessage;
+import com.utcn.assignment1.websockets.WebSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class Receiver {
     @Autowired
     private final TimestampService timestampService;
 
+    @Autowired
+    private final WebSocketService webSocketService;
+
     ArrayList<CustomMessage> receivedMessages = new ArrayList<>();
 
     Float currentHourlyConsumption = 0F;
@@ -45,13 +50,17 @@ public class Receiver {
             CustomMessage messageToSave = receivedMessages.get(receivedMessages.size() - 2);
             if(LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 1).getTimestamp()).getMinute() !=
                     LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 2).getTimestamp()).getMinute()) {
-                //TODO sent to database the currentHourlyConsumption and reset it
                 DeviceDTO device = deviceService.findById(messageToSave.id_device);
                 LocalDateTime parsedDate = LocalDateTime.parse(messageToSave.getTimestamp());
-                Timestamp timestamp = new Timestamp(null, deviceMapper.convertToEntity(device), parsedDate, messageToSave.getValue());
+                Timestamp timestamp = new Timestamp(null, deviceMapper.convertToEntity(device), parsedDate, currentHourlyConsumption);
                 timestampService.saveTimestamp(timestamp);
+                webSocketService.sendNotification(1L, new WebSocketMessage("You have surpassed the maximum energy consumption for this device." +
+                        "Value registered is: " + currentHourlyConsumption.toString() + ", while maximum energy for this device is: " +
+                        device.getMaximumEnergy().toString()));
+                currentHourlyConsumption = customMessage.getValue();
             }
         }
+        currentHourlyConsumption = customMessage.getValue();
         System.out.println("Received message and deserialized to 'CustomMessage': {}" + customMessage.toString());
     }
 }

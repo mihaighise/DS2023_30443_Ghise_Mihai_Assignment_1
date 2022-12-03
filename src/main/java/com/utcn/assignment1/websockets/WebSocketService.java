@@ -9,7 +9,6 @@ public class WebSocketService {
     SimpMessageSendingOperations simpMessageSendingOperations;
 
     public void sendNotification(Long id, WebSocketMessage message) {
-
         simpMessageSendingOperations.convertAndSendToUser( id.toString(),"/notification", message);
     }
 }
