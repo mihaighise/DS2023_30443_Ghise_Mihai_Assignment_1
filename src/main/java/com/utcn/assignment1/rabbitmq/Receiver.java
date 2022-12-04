@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Component
@@ -39,6 +40,7 @@ public class Receiver {
     ArrayList<CustomMessage> receivedMessages = new ArrayList<>();
 
     Float currentHourlyConsumption = 0F;
+    Float previousMaxConsumption = 0F;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -54,10 +56,12 @@ public class Receiver {
                 LocalDateTime parsedDate = LocalDateTime.parse(messageToSave.getTimestamp());
                 Timestamp timestamp = new Timestamp(null, deviceMapper.convertToEntity(device), parsedDate, currentHourlyConsumption);
                 timestampService.saveTimestamp(timestamp);
-                webSocketService.sendNotification(1L, new WebSocketMessage("You have surpassed the maximum energy consumption for this device." +
-                        "Value registered is: " + currentHourlyConsumption.toString() + ", while maximum energy for this device is: " +
-                        device.getMaximumEnergy().toString()));
-                currentHourlyConsumption = customMessage.getValue();
+                if(currentHourlyConsumption > device.getMaximumEnergy()) {
+                    webSocketService.sendNotification(1L, new WebSocketMessage("You have surpassed the maximum energy consumption for this device." +
+                            "Value registered is: " + currentHourlyConsumption.toString() + ", while maximum energy for this device is: " +
+                            device.getMaximumEnergy().toString()));
+                }
+                currentHourlyConsumption = 0F;
             }
         }
         currentHourlyConsumption = customMessage.getValue();

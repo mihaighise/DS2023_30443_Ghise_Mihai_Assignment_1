@@ -3,6 +3,7 @@ import { Device } from '../device';
 import { DeviceService } from '../device.service';
 import { LoginService } from '../login.service';
 import { User } from '../user';
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-user',
@@ -16,8 +17,11 @@ export class UserComponent implements OnInit {
   parsedDate: string = '';
   selectedDevice!: Device;
 
+  myWebSocket: WebSocketSubject<any> = webSocket('ws://localhost:8080');
+
   constructor(private deviceService: DeviceService,
-              private loginService: LoginService) { }
+              private loginService: LoginService) {
+  }
 
   ngOnInit(): void {
     this.getDevices(localStorage.getItem('username'));

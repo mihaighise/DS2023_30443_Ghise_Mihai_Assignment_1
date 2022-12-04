@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class WebSocketMessage {
 
     private String message;
