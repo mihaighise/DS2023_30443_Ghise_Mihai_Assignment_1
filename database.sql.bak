@@ -5,11 +5,11 @@ INSERT INTO public.users(id_user, username, "password", user_role)
 	
 	
 INSERT INTO public.devices(id, description, address, maximum_energy, id_user)
-	VALUES (default, 'description 1', 'bucuresti', 134, 1),
+	VALUES (default, 'description 1', 'bucuresti', 37, 1),
 	(default, 'description 2', 'sibiu', 156, 3),
 	(default, 'description 3', 'timisoara', 178, null),
 	(default, 'description 4', 'cluj', 190, null),
-	(default, 'description 5', 'salaj', 200, 1);
+	(default, 'description 5', 'salaj', 84, 1);
 	
 INSERT INTO public.timestamp(id_timestamp, id_device, "time", consumption) 
 	VALUES (default, 1, '20221025 17:00', 10),

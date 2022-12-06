@@ -47,29 +47,60 @@ public class Receiver {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+//    @RabbitListener(queues = "hello")
+//    public void receiveMessage(final String message) {
+//        System.out.println(message);
+//        CustomMessage customMessage = new Gson().fromJson(message, CustomMessage.class);
+//        receivedMessages.add(customMessage);
+//        if(receivedMessages.size() >= 2) {
+//            CustomMessage messageToSave = receivedMessages.get(receivedMessages.size() - 2);
+//            if(LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 1).getTimestamp()).getMinute() !=
+//                    LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 2).getTimestamp()).getMinute()) {
+//                DeviceDTO device = deviceService.findById(messageToSave.id_device);
+//                LocalDateTime parsedDate = LocalDateTime.parse(messageToSave.getTimestamp());
+//                Timestamp timestamp = new Timestamp(null, deviceMapper.convertToEntity(device), parsedDate, currentHourlyConsumption);
+//                timestampService.saveTimestamp(timestamp);
+//                if(currentHourlyConsumption - previousMaxConsumption > device.getMaximumEnergy()) {
+//                    webSocketService.sendNotification(1L, new WebSocketMessage("You have surpassed the maximum energy consumption for device." +
+//                            device.getId() +
+//                            "Value registered is: " + (currentHourlyConsumption - previousMaxConsumption) + ", while maximum energy for this device is: " +
+//                            device.getMaximumEnergy().toString()));
+//                }
+//                previousMaxConsumption = currentHourlyConsumption;
+//            }
+//        }
+//        currentHourlyConsumption = customMessage.getValue();
+//        System.out.println("Received message and deserialized to 'CustomMessage': {}" + customMessage.toString());
+//    }
+
     @RabbitListener(queues = "hello")
     public void receiveMessage(final String message) {
         CustomMessage customMessage = new Gson().fromJson(message, CustomMessage.class);
-        receivedMessages.add(customMessage);
-
-        if(receivedMessages.size() >= 2) {
-            CustomMessage messageToSave = receivedMessages.get(receivedMessages.size() - 2);
-            if(LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 1).getTimestamp()).getMinute() !=
-                    LocalDateTime.parse(receivedMessages.get(receivedMessages.size() - 2).getTimestamp()).getMinute()) {
+        long deviceId = customMessage.getId_device();
+        allReceivedMessages.computeIfAbsent(deviceId, k -> new ArrayList<>()).add(customMessage);
+        if(allReceivedMessages.get(customMessage.getId_device()).size() >= 2) {
+            int size = allReceivedMessages.get(customMessage.getId_device()).size();
+            CustomMessage messageToSave = allReceivedMessages.get(customMessage.getId_device()).get(size - 2);
+            if(LocalDateTime.parse(allReceivedMessages.get(customMessage.getId_device()).get(size - 1).getTimestamp()).getMinute() !=
+                    LocalDateTime.parse(allReceivedMessages.get(customMessage.getId_device()).get(size - 2).getTimestamp()).getMinute()) {
                 DeviceDTO device = deviceService.findById(messageToSave.id_device);
                 LocalDateTime parsedDate = LocalDateTime.parse(messageToSave.getTimestamp());
-                Timestamp timestamp = new Timestamp(null, deviceMapper.convertToEntity(device), parsedDate, currentHourlyConsumption);
+                Timestamp timestamp = new Timestamp(null, deviceMapper.convertToEntity(device),
+                        parsedDate, currentConsumptions.get(customMessage.getId_device()));
                 timestampService.saveTimestamp(timestamp);
-                if(currentHourlyConsumption - previousMaxConsumption > device.getMaximumEnergy()) {
+                System.out.println(currentConsumptions.get(deviceId));
+                System.out.println(previousConsumptions.get(deviceId));
+                previousConsumptions.putIfAbsent(deviceId, 0F);
+                if(currentConsumptions.get(deviceId) - previousConsumptions.get(deviceId) > device.getMaximumEnergy()) {
                     webSocketService.sendNotification(1L, new WebSocketMessage("You have surpassed the maximum energy consumption for device." +
                             device.getId() +
-                            "Value registered is: " + (currentHourlyConsumption - previousMaxConsumption) + ", while maximum energy for this device is: " +
+                            "Value registered is: " + (currentConsumptions.get(deviceId) - previousConsumptions.get(deviceId)) + ", while maximum energy for this device is: " +
                             device.getMaximumEnergy().toString()));
                 }
-                previousMaxConsumption = currentHourlyConsumption;
+                previousConsumptions.put(deviceId, currentConsumptions.get(deviceId));
             }
         }
-        currentHourlyConsumption = customMessage.getValue();
+        currentConsumptions.put(deviceId, customMessage.getValue());
         System.out.println("Received message and deserialized to 'CustomMessage': {}" + customMessage.toString());
     }
 }
