@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           stompClient.connect({}, function (frame:any) {
               console.log('Connected: ' + frame);
               stompClient.subscribe('/user/' + response.id + '/notification', function (greeting) {
-                  console.log(JSON.parse(greeting.body).message);
+                  alert(JSON.parse(greeting.body).message);
               });
           });
 
