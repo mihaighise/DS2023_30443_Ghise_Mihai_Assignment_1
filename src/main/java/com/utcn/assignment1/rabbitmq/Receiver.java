@@ -94,7 +94,8 @@ public class Receiver {
                 if(currentConsumptions.get(deviceId) - previousConsumptions.get(deviceId) > device.getMaximumEnergy()) {
                     webSocketService.sendNotification(1L, new WebSocketMessage("You have surpassed the maximum energy consumption for device." +
                             device.getId() +
-                            "Value registered is: " + (currentConsumptions.get(deviceId) - previousConsumptions.get(deviceId)) + ", while maximum energy for this device is: " +
+                            "Value registered is: " + (currentConsumptions.get(deviceId) - previousConsumptions.get(deviceId)) +
+                            ", while maximum energy for this device is: " +
                             device.getMaximumEnergy().toString()));
                 }
                 previousConsumptions.put(deviceId, currentConsumptions.get(deviceId));

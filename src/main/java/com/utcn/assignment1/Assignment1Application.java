@@ -1,6 +1,9 @@
 package com.utcn.assignment1;
 
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -16,8 +19,27 @@ import java.util.Arrays;
 @EnableConfigurationProperties
 public class Assignment1Application {
 
+//	@Value("${be.port}")
+//	private Integer be_port;
+//
+//	@Value("${be.address}")
+//	private String be_address;
+
+	@Value("${database.ip}")
+	private String be_address;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Assignment1Application.class, args);
+	}
+
+	@Bean
+	public ConnectionFactory connectionFactory() {
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+		connectionFactory.setAddresses(be_address);
+		connectionFactory.setPort(5672);
+		connectionFactory.setUsername("guest");
+		connectionFactory.setPassword("guest");
+		return connectionFactory;
 	}
 
 	@Bean

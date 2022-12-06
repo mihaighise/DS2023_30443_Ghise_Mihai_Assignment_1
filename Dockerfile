@@ -18,7 +18,6 @@ ENV DB_USER=postgres
 ENV DB_PASSWORD=12345
 ENV DB_DBNAME=assignment1
 
-
 COPY --from=builder /root/dependencies/ ./
 COPY --from=builder /root/snapshot-dependencies/ ./
 

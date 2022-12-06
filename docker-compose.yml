@@ -6,3 +6,19 @@ services:
     image: assignment1
     ports:
        - "8080:8080"
+    depends_on:
+       - "rabbitmq"
+    networks:
+      - frontend
+  
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - frontend
+      
+networks:
+  frontend:
+    
