@@ -8,10 +8,17 @@ services:
        - "8080:8080"
     depends_on:
        - "rabbitmq"
+    networks:
+      - ass1back
   
   rabbitmq:
     image: rabbitmq:management
     ports:
       - "5672:5672"
       - "15672:15672"
-     
+    networks:
+      - ass1back
+      
+networks:
+  ass1back:
+    

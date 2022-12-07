@@ -9,7 +9,7 @@ services:
     depends_on:
        - "rabbitmq"
     networks:
-      - frontend
+      - ass1back
   
   rabbitmq:
     image: rabbitmq:management
@@ -17,8 +17,15 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-      - frontend
+      - ass1back
+      
+  react:
+    image: fe-image
+    ports:
+       - "80:80"
+    networks:
+       - ass1back
       
 networks:
-  frontend:
+  ass1back:
     

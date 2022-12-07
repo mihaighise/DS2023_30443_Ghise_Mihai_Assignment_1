@@ -31,9 +31,11 @@ export class LoginComponent implements OnInit {
         if(response != null) {
           this.loginService.setLoggedUser(response);
           console.log(this.loginService.getLoggedUser());
-
+          
           var socket = new SockJS('http://localhost:8080/gs-guide-websocket');
           var stompClient = Stomp.over(socket);
+          console.log("SOCKET: " + socket);
+          console.log("STOMP: " + stompClient)
           stompClient.connect({}, function (frame:any) {
               console.log('Connected: ' + frame);
               stompClient.subscribe('/user/' + response.id + '/notification', function (greeting) {
