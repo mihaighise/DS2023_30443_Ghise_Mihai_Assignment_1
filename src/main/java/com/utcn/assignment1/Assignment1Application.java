@@ -46,6 +46,7 @@ public class Assignment1Application {
 	public Queue hello() {
 		return new Queue("hello");
 	}
+
 //	@Bean
 //	public CorsFilter corsFilter() {
 //		CorsConfiguration corsConfiguration = new CorsConfiguration();

@@ -13,6 +13,7 @@ import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
 import { ChartComponent } from './chart/chart.component';
 import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
+import { ChatComponent } from './chat/chat.component';
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 
@@ -23,7 +24,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     UserComponent,
     AdminComponent,
     ChartComponent,
-    CanvasJSChart
+    CanvasJSChart,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
