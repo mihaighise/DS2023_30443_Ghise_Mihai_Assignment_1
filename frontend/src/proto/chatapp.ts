@@ -52,14 +52,14 @@ class ChatMessage$Type extends MessageType<ChatMessage> {
             { no: 3, name: "msg", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<ChatMessage>): ChatMessage {
+    override create(value?: PartialMessage<ChatMessage>): ChatMessage {
         const message = { from: "", to: "", msg: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<ChatMessage>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ChatMessage): ChatMessage {
+    override internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ChatMessage): ChatMessage {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -84,7 +84,7 @@ class ChatMessage$Type extends MessageType<ChatMessage> {
         }
         return message;
     }
-    internalBinaryWrite(message: ChatMessage, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    override internalBinaryWrite(message: ChatMessage, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string from = 1; */
         if (message.from !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.from);
@@ -111,14 +111,14 @@ class CustomUser$Type extends MessageType<CustomUser> {
             { no: 1, name: "username", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<CustomUser>): CustomUser {
+    override create(value?: PartialMessage<CustomUser>): CustomUser {
         const message = { username: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<CustomUser>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CustomUser): CustomUser {
+    override internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CustomUser): CustomUser {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -137,7 +137,7 @@ class CustomUser$Type extends MessageType<CustomUser> {
         }
         return message;
     }
-    internalBinaryWrite(message: CustomUser, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    override internalBinaryWrite(message: CustomUser, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string username = 1; */
         if (message.username !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.username);
@@ -156,17 +156,17 @@ class Empty$Type extends MessageType<Empty> {
     constructor() {
         super("com.example.demo.grpc.Empty", []);
     }
-    create(value?: PartialMessage<Empty>): Empty {
+    override create(value?: PartialMessage<Empty>): Empty {
         const message = {};
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<Empty>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Empty): Empty {
+    override internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Empty): Empty {
         return target ?? this.create();
     }
-    internalBinaryWrite(message: Empty, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    override internalBinaryWrite(message: Empty, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
