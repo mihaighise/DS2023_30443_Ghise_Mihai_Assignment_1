@@ -1,51 +1,29 @@
 <div class="text-center mx-2 my-4 py-2">
-    <p class="font-bold leading-5">User</p>
+    <p class="font-bold leading-5">Logged as: {{ loggedUser }}</p>
 </div>
 
 <div class="flex">
     <div class="ml-24 pr-10 border-solid border-4 rounded-md border-orange-400 bg-cyan-300">
         <ul class="p-6">
-            <li class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400" (click)="chatWith('dsa')">dsa</li>
-            <li class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400">dsafdsfds</li>
-            <li class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400">dsfdsa</li>
-            <li class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400">dsagdfgd</li>
-            <li class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400">dsfdsfsa</li>
-            <li class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400">dsa</li>
-            <li class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400">dsfdsfa</li>
+            <li *ngFor="let user of users" class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400" (click)="chatWith(user.username)">{{ user.username }}</li>
         </ul>
     </div>
-    <div class="w-1/2 border-solid border-4 rounded-md border-black h-full overflow-y-hidden">
+    <div *ngIf="receiver !== ''" class="w-1/2 border-solid border-4 rounded-md border-black h-full overflow-y-hidden">
         <div class="text-center w-full bg-green-300 py-4 rounded-md">
             <p class="font-bold leading-5">Chatting with: {{ receiver }}</p>
+            <p *ngIf="displayIsTyping">...is typing</p>
         </div>
         <div class="bg-green-200 flex flex-col w-full h-full box-content overflow-y-scroll">
-            <div class="ml-auto">
-                <p class="p-2">Salut</p>
+            <div *ngFor="let message of sentMessages" class="ml-auto">
+                <p class="p-2">{{ message }}</p>
+                <p *ngIf="displaySeenMessages">*seen*</p>
             </div>
-            <div>
-                <p class="p-2">Salut</p>
-            </div>
-            <div class="ml-auto">
-                <p class="p-2">Ce faci?</p>
-            </div>
-            <div>
-                <p class="p-2">Bine, tu?</p>
-            </div>
-            <div class="ml-auto">
-                <p class="p-2">Mai nimic, pe acasa, stateam degeaba...tu ce mai zici?</p>
-            </div>
-            <div>
-                <p class="p-2">Nimic senzational</p>
-            </div>
-            <div class="ml-auto">
-                <p class="p-2">Mai nimic, pe acasa, stateam degeaba...tu ce mai zici?</p>
-            </div>
-            <div>
-                <p class="p-2">Nimic senzational</p>
+            <div *ngFor="let receivedMessage of receivedMessages">
+                <p class="p-2">{{ receivedMessage }}</p>
             </div>
         </div>
         <div class="text-center max-h-min flex justify-center align-middle bg-blue-300">
-            <input type="text" class="p-2 m-1 w-3/4" id="input_message">
+            <input type="text" class="p-2 m-1 w-3/4" id="input_message" (focus)="focusFunction()" (focusout)="focusOutFunction()">
             <button type="button" class="mx-4 border-solid border-2 rounded-md border-red-400 py-4 px-6 font-semibold hover:font-bold"
             (click)="sendMessage()">Send</button>
         </div>

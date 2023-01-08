@@ -32,20 +32,20 @@ public class Assignment1Application {
 		SpringApplication.run(Assignment1Application.class, args);
 	}
 
-	@Bean
-	public ConnectionFactory connectionFactory() {
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-		connectionFactory.setAddresses(be_address);
-		connectionFactory.setPort(5672);
-		connectionFactory.setUsername("guest");
-		connectionFactory.setPassword("guest");
-		return connectionFactory;
-	}
-
-	@Bean
-	public Queue hello() {
-		return new Queue("hello");
-	}
+//	@Bean
+//	public ConnectionFactory connectionFactory() {
+//		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+//		connectionFactory.setAddresses(be_address);
+//		connectionFactory.setPort(5672);
+//		connectionFactory.setUsername("guest");
+//		connectionFactory.setPassword("guest");
+//		return connectionFactory;
+//	}
+//
+//	@Bean
+//	public Queue hello() {
+//		return new Queue("hello");
+//	}
 
 //	@Bean
 //	public CorsFilter corsFilter() {

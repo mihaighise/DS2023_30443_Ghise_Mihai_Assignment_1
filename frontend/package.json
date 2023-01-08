@@ -28,6 +28,7 @@
     "@protobuf-ts/twirp-transport": "^2.8.2",
     "@stomp/stompjs": "^6.1.2",
     "@types/sockjs-client": "^1.5.1",
+    "aws-sdk": "^2.1288.0",
     "grpc_tools_node_protoc_ts": "^5.3.2",
     "grpc-tools": "^1.12.3",
     "primeicons": "^6.0.1",
