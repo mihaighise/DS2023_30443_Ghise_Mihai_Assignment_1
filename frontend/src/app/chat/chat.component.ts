@@ -69,21 +69,31 @@ export class ChatComponent implements OnInit {
   }
 
   async chatWith(user: string) {
-    //TODO send ACK message to the selected user to show him that you read his messages
-    this.receiver = user
-    console.log("cc");
-    //TODO send a message to other user to let him know that i'm seen his messages
+    //let the older receiver know you will not longer see his messages
+    console.log(user);
     let transport = new GrpcWebFetchTransport({
       baseUrl: "http://localhost:10100"
     });
     let client = new ChatServiceClient(transport);
-    let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_seen" } as ChatMessage);
-    for(let i = 0; i < this.messages.length; i++) {
-      if(this.messages[i].sender == this.receiver) {
-        this.messages[i].seen = true;
-      }
+    console.log(this.receiver)
+    if(this.receiver !== '') {
+      let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_not_seen" } as ChatMessage);
+      console.log("got a small hat! " + response)
     }
-    console.log("got a small hat! " + response)
+
+    this.receiver = user
+    console.log("cc");
+    //TODO send a message to other user to let him know that i'm seen his messages
+    let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_seen" } as ChatMessage);
+    // for(let i = 0; i < this.messages.length; i++) {
+    //   if(this.messages[i].sender == this.receiver) {
+    //     this.messages[i].seen = true;
+    //   }
+    // }
+    let filteredArray = this.messages.filter(elem => elem.sender == this.receiver)
+    console.log(filteredArray)
+    this.messages.find(x => x == filteredArray[filteredArray.length - 1]).seen = true;
+    console.log("got a small hat! " + response);
   }
 
   async receiveMessage() {
@@ -94,7 +104,10 @@ export class ChatComponent implements OnInit {
     let call = client.receiveMsg({ username: this.loggedUser} as CustomUser)
     for await (let hat of call.responses) {
       console.log(hat)
-      if(hat.msg !== 'generic_message_is_typing' && hat.msg !== 'generic_message_is_not_typing' && hat.msg !== 'generic_message_seen') {
+      if(hat.msg !== 'generic_message_is_typing' && 
+      hat.msg !== 'generic_message_is_not_typing' && 
+      hat.msg !== 'generic_message_seen' &&
+      hat.msg !== 'generic_message_not_seen') {
         //received normal message
         // if(hat.from == this.receiver) {
         //   this.receivedMessages.push(hat.msg);
@@ -106,13 +119,14 @@ export class ChatComponent implements OnInit {
           seen: false
         }
         this.messages.push(newMessage)
-
       } else if(hat.msg == 'generic_message_is_typing' && hat.from == this.receiver) {
           this.displayIsTyping = true;
       } else if(hat.msg == 'generic_message_is_not_typing' && hat.from == this.receiver) {
           this.displayIsTyping = false;
       } else if(hat.msg == 'generic_message_seen' && hat.from == this.receiver) {
           this.displaySeenMessages = true;
+      } else if(hat.msg == 'generic_message_not_seen' && hat.from == this.receiver) {
+        this.displaySeenMessages = false;
       }
     }
     console.log(this.messages)

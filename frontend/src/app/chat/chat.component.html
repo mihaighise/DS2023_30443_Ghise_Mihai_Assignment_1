@@ -26,7 +26,7 @@
             <div *ngFor="let message of messages" [ngClass]="message.sender === loggedUser ? 'ml-auto' : ''">
                 <div *ngIf="receiver == message.sender || receiver== message.receiver">
                     <p class="p-2">{{ message.message }}</p>
-                    <p *ngIf="displaySeenMessages">*seen*</p>
+                    <p *ngIf="message.seen">*seen*</p>
                 </div>
             </div>
         </div>
