@@ -5,7 +5,8 @@
 <div class="flex">
     <div class="ml-24 pr-10 border-solid border-4 rounded-md border-orange-400 bg-cyan-300">
         <ul class="p-6">
-            <li *ngFor="let user of users" class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400" (click)="chatWith(user.username)">{{ user.username }}</li>
+            <li *ngFor="let user of users" class="p-2 font-semibold hover:cursor-pointer hover:scale-110 hover:bg-green-400" 
+            (click)="chatWith(user.username)">{{ user.username }}</li>
         </ul>
     </div>
     <div *ngIf="receiver !== ''" class="w-1/2 border-solid border-4 rounded-md border-black h-full overflow-y-hidden">
@@ -14,12 +15,19 @@
             <p *ngIf="displayIsTyping">...is typing</p>
         </div>
         <div class="bg-green-200 flex flex-col w-full h-full box-content overflow-y-scroll">
-            <div *ngFor="let message of sentMessages" class="ml-auto">
+            <!-- <div *ngFor="let message of sentMessages" class="ml-auto">
                 <p class="p-2">{{ message }}</p>
                 <p *ngIf="displaySeenMessages">*seen*</p>
             </div>
             <div *ngFor="let receivedMessage of receivedMessages">
                 <p class="p-2">{{ receivedMessage }}</p>
+
+            </div> -->
+            <div *ngFor="let message of messages" [ngClass]="message.sender === loggedUser ? 'ml-auto' : ''">
+                <div *ngIf="receiver == message.sender || receiver== message.receiver">
+                    <p class="p-2">{{ message.message }}</p>
+                    <p *ngIf="displaySeenMessages">*seen*</p>
+                </div>
             </div>
         </div>
         <div class="text-center max-h-min flex justify-center align-middle bg-blue-300">

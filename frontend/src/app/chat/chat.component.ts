@@ -5,6 +5,14 @@ import {GrpcWebFetchTransport} from "@protobuf-ts/grpcweb-transport"
 import { User } from '../user';
 import { UserService } from '../user.service';
 
+
+interface CustomMessage {
+  sender: string,
+  receiver: string,
+  message: string,
+  seen: boolean
+}
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -23,6 +31,8 @@ export class ChatComponent implements OnInit {
   displaySeenMessages: boolean = false;
   loggedUser: string | null = '';
 
+  messages: any[] = [];
+
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
@@ -31,6 +41,7 @@ export class ChatComponent implements OnInit {
     this.userService.getUsers().subscribe(
       (response: User[]) => {
         this.users = response;
+        this.users = this.users.filter(elem => elem.username !== this.loggedUser);
         console.log(this.users)
       }
     )
@@ -45,8 +56,16 @@ export class ChatComponent implements OnInit {
     });
     let client = new ChatServiceClient(transport);
     let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: message } as ChatMessage);
+    let newMessage = {
+      sender: this.loggedUser,
+      receiver: this.receiver,
+      message: message,
+      seen: false
+    }
     this.sentMessages.push(message);
+    this.messages.push(newMessage);
     console.log("got a small hat! " + response)
+    console.log(this.messages)
   }
 
   async chatWith(user: string) {
@@ -59,6 +78,11 @@ export class ChatComponent implements OnInit {
     });
     let client = new ChatServiceClient(transport);
     let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_seen" } as ChatMessage);
+    for(let i = 0; i < this.messages.length; i++) {
+      if(this.messages[i].sender == this.receiver) {
+        this.messages[i].seen = true;
+      }
+    }
     console.log("got a small hat! " + response)
   }
 
@@ -72,17 +96,26 @@ export class ChatComponent implements OnInit {
       console.log(hat)
       if(hat.msg !== 'generic_message_is_typing' && hat.msg !== 'generic_message_is_not_typing' && hat.msg !== 'generic_message_seen') {
         //received normal message
-        if(hat.from == this.receiver) {
-          this.receivedMessages.push(hat.msg);
+        // if(hat.from == this.receiver) {
+        //   this.receivedMessages.push(hat.msg);
+        // }
+        let newMessage = {
+          sender: hat.from,
+          receiver: hat.to,
+          message: hat.msg,
+          seen: false
         }
-        } else if(hat.msg == 'generic_message_is_typing' && hat.from == this.receiver) {
+        this.messages.push(newMessage)
+
+      } else if(hat.msg == 'generic_message_is_typing' && hat.from == this.receiver) {
           this.displayIsTyping = true;
-        } else if(hat.msg == 'generic_message_is_not_typing' && hat.from == this.receiver) {
+      } else if(hat.msg == 'generic_message_is_not_typing' && hat.from == this.receiver) {
           this.displayIsTyping = false;
-        } else if(hat.msg == 'generic_message_seen' && hat.from == this.receiver) {
+      } else if(hat.msg == 'generic_message_seen' && hat.from == this.receiver) {
           this.displaySeenMessages = true;
-        }
+      }
     }
+    console.log(this.messages)
   }
 
   async focusFunction() {
