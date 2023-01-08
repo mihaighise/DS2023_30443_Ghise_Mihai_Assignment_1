@@ -64,6 +64,7 @@ export class ChatComponent implements OnInit {
     }
     this.sentMessages.push(message);
     this.messages.push(newMessage);
+    await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "are_you_online" } as ChatMessage);
     console.log("got a small hat! " + response)
     console.log(this.messages)
   }
@@ -75,11 +76,11 @@ export class ChatComponent implements OnInit {
       baseUrl: "http://localhost:10100"
     });
     let client = new ChatServiceClient(transport);
-    console.log(this.receiver)
-    if(this.receiver !== '') {
-      let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_not_seen" } as ChatMessage);
-      console.log("got a small hat! " + response)
-    }
+    // console.log(this.receiver)
+    // if(this.receiver !== '') {
+    //   let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_not_seen" } as ChatMessage);
+    //   console.log("got a small hat! " + response)
+    // }
 
     this.receiver = user
     console.log("cc");
@@ -90,9 +91,6 @@ export class ChatComponent implements OnInit {
     //     this.messages[i].seen = true;
     //   }
     // }
-    let filteredArray = this.messages.filter(elem => elem.sender == this.receiver)
-    console.log(filteredArray)
-    this.messages.find(x => x == filteredArray[filteredArray.length - 1]).seen = true;
     console.log("got a small hat! " + response);
   }
 
@@ -107,7 +105,8 @@ export class ChatComponent implements OnInit {
       if(hat.msg !== 'generic_message_is_typing' && 
       hat.msg !== 'generic_message_is_not_typing' && 
       hat.msg !== 'generic_message_seen' &&
-      hat.msg !== 'generic_message_not_seen') {
+      hat.msg !== 'generic_message_not_seen' &&
+      hat.msg !== 'are_you_online') {
         //received normal message
         // if(hat.from == this.receiver) {
         //   this.receivedMessages.push(hat.msg);
@@ -125,8 +124,16 @@ export class ChatComponent implements OnInit {
           this.displayIsTyping = false;
       } else if(hat.msg == 'generic_message_seen' && hat.from == this.receiver) {
           this.displaySeenMessages = true;
+          let filteredArray = this.messages.filter(elem => elem.sender == this.loggedUser)
+          filteredArray.map(elem => elem.seen = false)
+          console.log(filteredArray)
+          let mess = this.messages.find(x => x == filteredArray[filteredArray.length - 1])
+          mess.seen = true;
       } else if(hat.msg == 'generic_message_not_seen' && hat.from == this.receiver) {
         this.displaySeenMessages = false;
+      } else if(hat.msg == 'are_you_online' && hat.from == this.receiver) {
+        console.log("aa")
+        await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_seen" } as ChatMessage);
       }
     }
     console.log(this.messages)
@@ -141,6 +148,7 @@ export class ChatComponent implements OnInit {
     let client = new ChatServiceClient(transport);
     let { response } = await client.sendMsg({ from: this.loggedUser, to: this.receiver, msg: "generic_message_is_typing" } as ChatMessage);
     console.log("got a small hat! " + response)
+    console.log(this.messages)
   }
 
   async focusOutFunction() {

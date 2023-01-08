@@ -24,9 +24,11 @@
 
             </div> -->
             <div *ngFor="let message of messages" [ngClass]="message.sender === loggedUser ? 'ml-auto' : ''">
-                <div *ngIf="receiver == message.sender || receiver== message.receiver">
+                <div *ngIf="receiver == message.sender || receiver == message.receiver" class="flex">
                     <p class="p-2">{{ message.message }}</p>
-                    <p *ngIf="message.seen">*seen*</p>
+                    <div class="ml-auto">
+                        <p *ngIf="message.seen">*seen*</p>
+                    </div>
                 </div>
             </div>
         </div>
